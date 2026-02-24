@@ -3,11 +3,15 @@
     <p class="code">404</p>
     <h1 class="title">PAGE NOT FOUND</h1>
     <div class="divider"></div>
-    <blockquote class="quote">But if you don't change your direction, and if you keep looking, you may end up where
-      you are heading.</blockquote>
+    <blockquote class="quote">
+      But if you don't change your direction, and if you keep looking, you may
+      end up where you are heading.
+    </blockquote>
 
     <div class="action">
-      <router-link class="link" to="/" aria-label="go to home">Take me home</router-link>
+      <router-link class="link" to="/" aria-label="go to home"
+        >Take me home</router-link
+      >
     </div>
   </div>
 </template>
@@ -84,7 +88,9 @@
   font-size: 14px;
   font-weight: 500;
   color: #3451b2;
-  transition: border-color 0.25s, color 0.25s;
+  transition:
+    border-color 0.25s,
+    color 0.25s;
   text-decoration: inherit;
 }
 

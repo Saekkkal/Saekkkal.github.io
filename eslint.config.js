@@ -11,7 +11,13 @@ export default defineConfig([
     extends: ['js/recommended'],
     languageOptions: {globals: {...globals.browser, ...globals.node}},
   },
-  pluginVue.configs['flat/essential'],
+  ...pluginVue.configs['flat/essential'],
+  {
+    files: ['**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
   {
     files: ['**/*.css'],
     plugins: {css},

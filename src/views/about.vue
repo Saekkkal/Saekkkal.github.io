@@ -1,17 +1,19 @@
 <template>
   <div class="about">
-    <carousel :items="[
-      {
-        image: brushImage,
-        title: 'Saekkkal',
-        description: '🎨 제 닉네임은 한국어로 \'색깔\'을 의미해요'
-      },
-      {
-        image: profileImage,
-        title: 'Profile',
-        description: '프로필 이미지는 ChatGPT를 통해 생성되었어요'
-      }
-    ]" />
+    <carousel
+      :items="[
+        {
+          image: brushImage,
+          title: 'Saekkkal',
+          description: $t('about.nickname'),
+        },
+        {
+          image: profileImage,
+          title: 'Profile',
+          description: $t('about.image'),
+        },
+      ]"
+    />
     <nav>
       <router-link to="/">Home</router-link>
     </nav>
@@ -19,9 +21,9 @@
 </template>
 
 <script setup>
-import carousel from '@/components/carousel.vue'
-import brushImage from '@/assets/brush.png'
-import profileImage from '@/assets/profile.png'
+import carousel from '@/components/carousel.vue';
+import brushImage from '@/assets/brush.png';
+import profileImage from '@/assets/profile.png';
 </script>
 
 <style scoped>
@@ -56,7 +58,9 @@ nav a {
   border-radius: 1.5rem;
   text-decoration: none;
   font-weight: 600;
-  transition: background-color 0.2s, transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 }
 
 nav a:hover {

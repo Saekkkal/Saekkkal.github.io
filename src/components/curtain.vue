@@ -1,41 +1,41 @@
 <template>
-  <div class="curtain" ref="curtain" :class="{ 'is-active': isActive }">
+  <div class="curtain" ref="curtain" :class="{'is-active': isActive}">
     <div v-for="index in 10" :key="index" ref="blocks" class="block"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, useTemplateRef } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref, useTemplateRef} from 'vue';
+import {useRouter} from 'vue-router';
 
 const wait = (delay, value) => {
-  return new Promise(resolve => setTimeout(resolve, delay, value))
-}
+  return new Promise(resolve => setTimeout(resolve, delay, value));
+};
 
-const router = useRouter()
-const isActive = ref(false)
-const blocks = useTemplateRef('blocks')
+const router = useRouter();
+const isActive = ref(false);
+const blocks = useTemplateRef('blocks');
 
 router.beforeEach(async (to, from, next) => {
-  if (from.fullPath === '/' && !from.matched.length) return next()
+  if (from.fullPath === '/' && !from.matched.length) return next();
 
-  isActive.value = true
+  isActive.value = true;
   for (let block of blocks.value) {
-    block.classList.add('transtion')
-    await wait(50)
+    block.classList.add('transtion');
+    await wait(50);
   }
-  next()
-})
+  next();
+});
 
-router.afterEach(async (to, from) => {
-  if (isActive.value === false) return
+router.afterEach(async () => {
+  if (isActive.value === false) return;
 
-  isActive.value = false
+  isActive.value = false;
   for (let block of blocks.value) {
-    block.classList.remove('transtion')
-    await wait(50)
+    block.classList.remove('transtion');
+    await wait(50);
   }
-})
+});
 </script>
 
 <style scoped>

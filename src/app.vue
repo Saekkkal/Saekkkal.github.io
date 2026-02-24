@@ -13,10 +13,23 @@
 </template>
 
 <script setup>
-import './style.css'
-import curtain from './components/curtain.vue'
-import themeSwitch from './components/themeSwitch.vue'
-import socialLink from './components/socialLink.vue'
+import {computed} from 'vue';
+import {useI18n} from 'vue-i18n';
+import {useHead} from '@unhead/vue';
+
+import './style.css';
+import curtain from './components/curtain.vue';
+import themeSwitch from './components/themeSwitch.vue';
+import socialLink from './components/socialLink.vue';
+
+const {locale, t} = useI18n();
+
+useHead({
+  htmlAttrs: {
+    lang: computed(() => locale.value),
+  },
+  meta: [{name: 'description', content: t('meta.description')}],
+});
 </script>
 
 <style scoped>
