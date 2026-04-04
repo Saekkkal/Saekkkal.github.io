@@ -1,40 +1,68 @@
 <template>
-  <div class="curtain" ref="curtain" :class="{'is-active': isActive}">
-    <div v-for="index in 10" :key="index" ref="blocks" class="block"></div>
+  <div
+    v-if="isCurtainVisible"
+    class="curtain"
+    :class="{transition: isTransitioning}"
+  >
+    <div
+      v-for="index in 10"
+      :key="index"
+      class="block"
+      :style="{transitionDelay: `${(index - 1) * 50}ms`}"
+      @transitionend="index === 10 ? handleTransitionEnd($event) : null"
+    ></div>
   </div>
 </template>
 
 <script setup>
-import {ref, useTemplateRef} from 'vue';
+import {nextTick, ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-const wait = (delay, value) => {
-  return new Promise(resolve => setTimeout(resolve, delay, value));
+const router = useRouter();
+
+const isCurtainVisible = ref(false);
+const isTransitioning = ref(false);
+
+let resolveTransition = null;
+
+const handleTransitionEnd = e => {
+  if (e.propertyName === 'transform' && resolveTransition) {
+    resolveTransition();
+    resolveTransition = null;
+  }
 };
 
-const router = useRouter();
-const isActive = ref(false);
-const blocks = useTemplateRef('blocks');
+const waitTransition = () =>
+  new Promise(resolve => {
+    resolveTransition = resolve;
+  });
+
+const waitAnimationFrame = () => new Promise(requestAnimationFrame);
 
 router.beforeEach(async (to, from, next) => {
+  if (typeof window === 'undefined') return next();
   if (from.fullPath === '/' && !from.matched.length) return next();
 
-  isActive.value = true;
-  for (let block of blocks.value) {
-    block.classList.add('transtion');
-    await wait(50);
-  }
+  isCurtainVisible.value = true;
+  await nextTick();
+  await waitAnimationFrame();
+  await waitAnimationFrame();
+
+  isTransitioning.value = true;
+
+  await waitTransition();
+
   next();
 });
 
 router.afterEach(async () => {
-  if (isActive.value === false) return;
+  if (!isCurtainVisible.value) return;
 
-  isActive.value = false;
-  for (let block of blocks.value) {
-    block.classList.remove('transtion');
-    await wait(50);
-  }
+  isTransitioning.value = false;
+
+  await waitTransition();
+
+  isCurtainVisible.value = false;
 });
 </script>
 
@@ -46,11 +74,6 @@ router.afterEach(async () => {
   z-index: 2;
   display: flex;
   scale: 1.2;
-  pointer-events: none;
-}
-
-.curtain.is-active {
-  pointer-events: unset;
 }
 
 .block {
@@ -62,7 +85,7 @@ router.afterEach(async () => {
   transform: scaleY(0);
 }
 
-.block.transtion {
+.curtain.transition .block {
   transform-origin: top center;
   transform: scaleY(1);
 }
