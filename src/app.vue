@@ -17,7 +17,7 @@ import {computed} from 'vue';
 import {useI18n} from 'vue-i18n';
 import {useHead} from '@unhead/vue';
 
-import './style.css';
+import './assets/modern-normalize.css';
 import curtain from './components/curtain.vue';
 import themeSwitch from './components/themeSwitch.vue';
 import socialLink from './components/socialLink.vue';

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "esnext",
+    "strict": true
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
